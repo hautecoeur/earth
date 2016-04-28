@@ -232,94 +232,94 @@ var products = function() {
             }
         },
 
-        "air_density": {
-            matches: _.matches({param: "wind", overlayType: "air_density"}),
-            create: function(attr) {
-                return buildProduct({
-                    field: "scalar",
-                    type: "air_density",
-                    description: localize({
-                        name: {en: "Air Density", ja: "空気密度"},
-                        qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
-                    }),
-                    paths: [gfs1p0degPath(attr, "air_density", attr.surface, attr.level)],
-                    date: gfsDate(attr),
-                    builder: function(file) {
-                        var vars = file.variables;
-                        var air_density = vars.air_density, data = air_density.data;
-                        return {
-                            header: netcdfHeader(vars.time, vars.lat, vars.lon, file.Originating_or_generating_Center),
-                            interpolate: bilinearInterpolateScalar,
-                            data: function(i) {
-                                return data[i];
-                            }
-                        };
-                    },
-                    units: [
-                        {label: "kg/m³", conversion: function(x) { return x; }, precision: 2}
-                    ],
-                    scale: {
-                        bounds: [0, 1.5],
-                        gradient: function(v, a) {
-                            return µ.sinebowColor(Math.min(v, 1.5) / 1.5, a);
-                        }
-                    }
-                });
-            }
-        },
+        // "air_density": {
+        //     matches: _.matches({param: "wind", overlayType: "air_density"}),
+        //     create: function(attr) {
+        //         return buildProduct({
+        //             field: "scalar",
+        //             type: "air_density",
+        //             description: localize({
+        //                 name: {en: "Air Density", ja: "空気密度"},
+        //                 qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
+        //             }),
+        //             paths: [gfs1p0degPath(attr, "air_density", attr.surface, attr.level)],
+        //             date: gfsDate(attr),
+        //             builder: function(file) {
+        //                 var vars = file.variables;
+        //                 var air_density = vars.air_density, data = air_density.data;
+        //                 return {
+        //                     header: netcdfHeader(vars.time, vars.lat, vars.lon, file.Originating_or_generating_Center),
+        //                     interpolate: bilinearInterpolateScalar,
+        //                     data: function(i) {
+        //                         return data[i];
+        //                     }
+        //                 };
+        //             },
+        //             units: [
+        //                 {label: "kg/m³", conversion: function(x) { return x; }, precision: 2}
+        //             ],
+        //             scale: {
+        //                 bounds: [0, 1.5],
+        //                 gradient: function(v, a) {
+        //                     return µ.sinebowColor(Math.min(v, 1.5) / 1.5, a);
+        //                 }
+        //             }
+        //         });
+        //     }
+        // },
 
-        "wind_power_density": {
-            matches: _.matches({param: "wind", overlayType: "wind_power_density"}),
-            create: function(attr) {
-                var windProduct = FACTORIES.wind.create(attr);
-                var airdensProduct = FACTORIES.air_density.create(attr);
-                return buildProduct({
-                    field: "scalar",
-                    type: "wind_power_density",
-                    description: localize({
-                        name: {en: "Wind Power Density", ja: "風力エネルギー密度"},
-                        qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
-                    }),
-                    paths: [windProduct.paths[0], airdensProduct.paths[0]],
-                    date: gfsDate(attr),
-                    builder: function(windFile, airdensFile) {
-                        var windBuilder = windProduct.builder(windFile);
-                        var airdensBuilder = airdensProduct.builder(airdensFile);
-                        var windData = windBuilder.data, windInterpolate = windBuilder.interpolate;
-                        var airdensData = airdensBuilder.data, airdensInterpolate = airdensBuilder.interpolate;
-                        return {
-                            header: _.clone(airdensBuilder.header),
-                            interpolate: function(x, y, g00, g10, g01, g11) {
-                                var m = windInterpolate(x, y, g00[0], g10[0], g01[0], g11[0])[2];
-                                var ρ = airdensInterpolate(x, y, g00[1], g10[1], g01[1], g11[1]);
-                                return 0.5 * ρ * m * m * m;
-                            },
-                            data: function(i) {
-                                return [windData(i), airdensData(i)];
-                            }
-                        };
-                    },
-                    units: [
-                        {label: "kW/m²", conversion: function(x) { return x / 1000; }, precision: 1},
-                        {label: "W/m²", conversion: function(x) { return x; }, precision: 0}
-                    ],
-                    scale: {
-                        bounds: [0, 80000],
-                        gradient: µ.segmentedColorScale([
-                            [0, [15, 4, 96]],
-                            [250, [30, 8, 180]],
-                            [1000, [121, 102, 2]],
-                            [2000, [118, 161, 66]],
-                            [4000, [50, 102, 219]],
-                            [8000, [19, 131, 193]],
-                            [16000, [59, 204, 227]],
-                            [64000, [241, 1, 45]],
-                            [80000, [243, 0, 241]]
-                        ])
-                    }
-                });
-            }
-        },
+        // "wind_power_density": {
+        //     matches: _.matches({param: "wind", overlayType: "wind_power_density"}),
+        //     create: function(attr) {
+        //         var windProduct = FACTORIES.wind.create(attr);
+        //         var airdensProduct = FACTORIES.air_density.create(attr);
+        //         return buildProduct({
+        //             field: "scalar",
+        //             type: "wind_power_density",
+        //             description: localize({
+        //                 name: {en: "Wind Power Density", ja: "風力エネルギー密度"},
+        //                 qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
+        //             }),
+        //             paths: [windProduct.paths[0], airdensProduct.paths[0]],
+        //             date: gfsDate(attr),
+        //             builder: function(windFile, airdensFile) {
+        //                 var windBuilder = windProduct.builder(windFile);
+        //                 var airdensBuilder = airdensProduct.builder(airdensFile);
+        //                 var windData = windBuilder.data, windInterpolate = windBuilder.interpolate;
+        //                 var airdensData = airdensBuilder.data, airdensInterpolate = airdensBuilder.interpolate;
+        //                 return {
+        //                     header: _.clone(airdensBuilder.header),
+        //                     interpolate: function(x, y, g00, g10, g01, g11) {
+        //                         var m = windInterpolate(x, y, g00[0], g10[0], g01[0], g11[0])[2];
+        //                         var ρ = airdensInterpolate(x, y, g00[1], g10[1], g01[1], g11[1]);
+        //                         return 0.5 * ρ * m * m * m;
+        //                     },
+        //                     data: function(i) {
+        //                         return [windData(i), airdensData(i)];
+        //                     }
+        //                 };
+        //             },
+        //             units: [
+        //                 {label: "kW/m²", conversion: function(x) { return x / 1000; }, precision: 1},
+        //                 {label: "W/m²", conversion: function(x) { return x; }, precision: 0}
+        //             ],
+        //             scale: {
+        //                 bounds: [0, 80000],
+        //                 gradient: µ.segmentedColorScale([
+        //                     [0, [15, 4, 96]],
+        //                     [250, [30, 8, 180]],
+        //                     [1000, [121, 102, 2]],
+        //                     [2000, [118, 161, 66]],
+        //                     [4000, [50, 102, 219]],
+        //                     [8000, [19, 131, 193]],
+        //                     [16000, [59, 204, 227]],
+        //                     [64000, [241, 1, 45]],
+        //                     [80000, [243, 0, 241]]
+        //                 ])
+        //             }
+        //         });
+        //     }
+        // },
 
         // "total_cloud_water": {
         //     matches: _.matches({param: "wind", overlayType: "total_cloud_water"}),

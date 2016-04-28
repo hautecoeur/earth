@@ -1012,7 +1012,7 @@
 
         // Modify menu depending on what mode we're in.
         configuration.on("change:param", function(context, mode) {
-            d3.selectAll(".ocean-mode").classed("invisible", mode !== "ocean");
+            // d3.selectAll(".ocean-mode").classed("invisible", mode !== "ocean");
             d3.selectAll(".wind-mode").classed("invisible", mode !== "wind");
             switch (mode) {
                 case "wind":
@@ -1021,12 +1021,12 @@
                     d3.select("#nav-forward").attr("title", "+3 Hours");
                     d3.select("#nav-forward-more").attr("title", "+1 Day");
                     break;
-                case "ocean":
-                    d3.select("#nav-backward-more").attr("title", "-1 Month");
-                    d3.select("#nav-backward").attr("title", "-5 Days");
-                    d3.select("#nav-forward").attr("title", "+5 Days");
-                    d3.select("#nav-forward-more").attr("title", "+1 Month");
-                    break;
+                // case "ocean":
+                //     d3.select("#nav-backward-more").attr("title", "-1 Month");
+                //     d3.select("#nav-backward").attr("title", "-5 Days");
+                //     d3.select("#nav-forward").attr("title", "+5 Days");
+                //     d3.select("#nav-forward-more").attr("title", "+1 Month");
+                //     break;
             }
         });
 
@@ -1039,38 +1039,38 @@
         configuration.on("change:param", function(x, param) {
             d3.select("#wind-mode-enable").classed("highlighted", param === "wind");
         });
-        d3.select("#ocean-mode-enable").on("click", function() {
-            if (configuration.get("param") !== "ocean") {
-                // When switching between modes, there may be no associated data for the current date. So we need
-                // find the closest available according to the catalog. This is not necessary if date is "current".
-                // UNDONE: this code is annoying. should be easier to get date for closest ocean product.
-                var ocean = {param: "ocean", surface: "surface", level: "currents", overlayType: "default"};
-                var attr = _.clone(configuration.attributes);
-                if (attr.date === "current") {
-                    configuration.save(ocean);
-                }
-                else {
-                    when.all(products.productsFor(_.extend(attr, ocean))).spread(function(product) {
-                        if (product.date) {
-                            configuration.save(_.extend(ocean, µ.dateToConfig(product.date)));
-                        }
-                    }).otherwise(report.error);
-                }
-                stopCurrentAnimation(true);  // cleanup particle artifacts over continents
-            }
-        });
-        configuration.on("change:param", function(x, param) {
-            d3.select("#ocean-mode-enable").classed("highlighted", param === "ocean");
-        });
+        // d3.select("#ocean-mode-enable").on("click", function() {
+        //     if (configuration.get("param") !== "ocean") {
+        //         // When switching between modes, there may be no associated data for the current date. So we need
+        //         // find the closest available according to the catalog. This is not necessary if date is "current".
+        //         // UNDONE: this code is annoying. should be easier to get date for closest ocean product.
+        //         var ocean = {param: "ocean", surface: "surface", level: "currents", overlayType: "default"};
+        //         var attr = _.clone(configuration.attributes);
+        //         if (attr.date === "current") {
+        //             configuration.save(ocean);
+        //         }
+        //         else {
+        //             when.all(products.productsFor(_.extend(attr, ocean))).spread(function(product) {
+        //                 if (product.date) {
+        //                     configuration.save(_.extend(ocean, µ.dateToConfig(product.date)));
+        //                 }
+        //             }).otherwise(report.error);
+        //         }
+        //         stopCurrentAnimation(true);  // cleanup particle artifacts over continents
+        //     }
+        // });
+        // configuration.on("change:param", function(x, param) {
+        //     d3.select("#ocean-mode-enable").classed("highlighted", param === "ocean");
+        // });
 
         // Add logic to disable buttons that are incompatible with each other.
-        configuration.on("change:overlayType", function(x, ot) {
-            d3.select("#surface-level").classed("disabled", ot === "air_density" || ot === "wind_power_density");
-        });
-        configuration.on("change:surface", function(x, s) {
-            d3.select("#overlay-air_density").classed("disabled", s === "surface");
-            d3.select("#overlay-wind_power_density").classed("disabled", s === "surface");
-        });
+        // configuration.on("change:overlayType", function(x, ot) {
+        //     d3.select("#surface-level").classed("disabled", ot === "air_density" || ot === "wind_power_density");
+        // });
+        // configuration.on("change:surface", function(x, s) {
+        //     d3.select("#overlay-air_density").classed("disabled", s === "surface");
+        //     d3.select("#overlay-wind_power_density").classed("disabled", s === "surface");
+        // });
 
         // Add event handlers for the time navigation buttons.
         d3.select("#nav-backward-more").on("click", navigate.bind(null, -10));
@@ -1093,15 +1093,15 @@
         });
 
         // Add handlers for ocean animation types.
-        bindButtonToConfiguration("#animate-currents", {param: "ocean", surface: "surface", level: "currents"});
+        // bindButtonToConfiguration("#animate-currents", {param: "ocean", surface: "surface", level: "currents"});
 
         // Add handlers for all overlay buttons.
         products.overlayTypes.forEach(function(type) {
             bindButtonToConfiguration("#overlay-" + type, {overlayType: type});
         });
         bindButtonToConfiguration("#overlay-wind", {param: "wind", overlayType: "default"});
-        bindButtonToConfiguration("#overlay-ocean-off", {overlayType: "off"});
-        bindButtonToConfiguration("#overlay-currents", {overlayType: "default"});
+        // bindButtonToConfiguration("#overlay-ocean-off", {overlayType: "off"});
+        // bindButtonToConfiguration("#overlay-currents", {overlayType: "default"});
 
         // Add handlers for all projection buttons.
         globes.keys().forEach(function(p) {
