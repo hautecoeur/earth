@@ -45,6 +45,7 @@ var port = process.argv[2];
 var express = require("express");
 var app = express();
 
+port = process.env.PORT;
 app.use(cacheControl());
 app.use(express.compress({filter: compressionFilter}));
 app.use(logger());

@@ -67,66 +67,66 @@
             <p>データ | <span id="data-layer"></span></p>
             <p><span id="scale-label">スケール | </span><canvas id="scale"></canvas></p>
             <p>発信源 | <span id="data-center"></span></p>
-            <p>操作 | <span
-                class="text-button" id="nav-now" title="現在状況">最新</span><span
-                class="text-button" id="nav-backward-more"> « </span> – <span
-                class="text-button" id="nav-backward"> ‹ </span> – <span
-                class="text-button" id="nav-forward"> › </span> – <span
-                class="text-button" id="nav-forward-more"> » </span><span
-                class="text-button" id="show-location" title="現在地">〖◯〗</span><span
-                class="text-button" id="option-show-grid" title="Toggle Grid">グリッド</span>
+            <p>操作 |
+                <span class="text-button" id="nav-now" title="現在状況">最新</span>
+                <span class="text-button" id="nav-backward-more"> « </span>
+                <span class="text-button" id="nav-backward"> ‹ </span>
+                <span class="text-button" id="nav-forward"> › </span>
+                <span class="text-button" id="nav-forward-more"> » </span>
+                <!--<span class="text-button" id="show-location" title="現在地">〖◯〗</span>-->
+                <span class="text-button" id="option-show-grid" title="Toggle Grid">グリッド</span>
             </p>
-            <p>モード | <span
-                class="text-button" id="wind-mode-enable">大気圏</span> – <span
-                class="text-button" id="ocean-mode-enable">海</span>
+            <!--<p>モード | <span-->
+            <!--    class="text-button" id="wind-mode-enable">大気圏</span> – <span-->
+            <!--    class="text-button" id="ocean-mode-enable">海</span>-->
+            <!--</p>-->
+            <p class="wind-mode">高度 |
+                <span class="surface text-button" id="surface-level" title="地上">地上</span>
+                – <span class="surface text-button" id="isobaric-1000hPa">1000</span>
+                – <span class="surface text-button" id="isobaric-850hPa">850</span>
+                – <span class="surface text-button" id="isobaric-700hPa">700</span>
+                – <span class="surface text-button" id="isobaric-500hPa">500</span>
+                – <span class="surface text-button" id="isobaric-250hPa">250</span>
+                – <span class="surface text-button" id="isobaric-70hPa">70</span>
+                – <span class="surface text-button" id="isobaric-10hPa">10</span> hPa
             </p>
-            <p class="wind-mode">高度 | <span
-                class="surface text-button" id="surface-level" title="地上">地上</span> – <span
-                class="surface text-button" id="isobaric-1000hPa">1000</span> – <span
-                class="surface text-button" id="isobaric-850hPa">850</span> – <span
-                class="surface text-button" id="isobaric-700hPa">700</span> – <span
-                class="surface text-button" id="isobaric-500hPa">500</span> – <span
-                class="surface text-button" id="isobaric-250hPa">250</span> – <span
-                class="surface text-button" id="isobaric-70hPa">70</span> – <span
-                class="surface text-button" id="isobaric-10hPa">10</span> hPa
+            <p class="wind-mode">レイヤー |
+                <span class="text-button" id="overlay-off">無</span>
+                – <span class="text-button" id="overlay-wind" title="風速">風速</span>
+                – <span class="text-button" id="overlay-temp" title="気温">気温</span>
+                – <span class="text-button" id="overlay-relative_humidity" title="相対湿度">相対湿度</span>
+                <!--– <span class="text-button" id="overlay-air_density" title="空気密度">空気密度</span>-->
+                <!--– <span class="text-button" id="overlay-wind_power_density" title="風力エネルギー密度">WPD</span>-->
             </p>
-            <p class="wind-mode">レイヤー | <span
-                class="text-button" id="overlay-off">無</span> – <span
-                class="text-button" id="overlay-wind" title="風速">風速</span> – <span
-                class="text-button" id="overlay-temp" title="気温">気温</span> – <span
-                class="text-button" id="overlay-relative_humidity" title="相対湿度">相対湿度</span> – <span
-                class="text-button" id="overlay-air_density" title="空気密度">空気密度</span> – <span
-                class="text-button" id="overlay-wind_power_density" title="風力エネルギー密度">WPD</span>
-            </p>
-            <p class="wind-mode"><span style="visibility:hidden">レイヤー</span> | <span
-                class="text-button" id="overlay-total_precipitable_water" title="可降水量">可降水量</span> – <span
-                class="text-button" id="overlay-total_cloud_water" title="雲水量">雲水量</span> – <span
-                class="text-button" id="overlay-mean_sea_level_pressure" title="海面更正気圧">海面更正</span>
-            </p>
-            <p class="ocean-mode invisible">動画 | <span
-                class="text-button" id="animate-currents" title="海流">海流</span>
-            </p>
-            <p class="ocean-mode invisible">レイヤー | <span
-                class="text-button" id="overlay-ocean-off">無</span> – <span
-                class="text-button" id="overlay-currents" title="海流">海流</span>
-            </p>
-            <p class="ocean-mode invisible"><span style="visibility:hidden">レイヤー</span> |</p>
-            <p>投影法 | <span
-                class="proj text-button" id="atlantis" title="アトランティス">A</span> – <span
-                class="proj text-button" id="azimuthal_equidistant" title="正距方位">AE</span> – <span
-                class="proj text-button" id="conic_equidistant" title="正距円錐">CE</span> – <span
-                class="proj text-button" id="equirectangular" title="正距円筒">E</span> – <span
-                class="proj text-button" id="orthographic" title="正射">O</span> – <span
-                class="proj text-button" id="stereographic" title="平射">S</span> – <span
-                class="proj text-button" id="waterman" title="ウォーターマン蝶型">WB</span> – <span
-                class="proj text-button" id="winkel3" title="ヴィンケル第3">W3</span>
+            <!--<p class="wind-mode"><span style="visibility:hidden">レイヤー</span> | <span-->
+            <!--    class="text-button" id="overlay-total_precipitable_water" title="可降水量">可降水量</span> – <span-->
+            <!--    class="text-button" id="overlay-total_cloud_water" title="雲水量">雲水量</span> – <span-->
+            <!--    class="text-button" id="overlay-mean_sea_level_pressure" title="海面更正気圧">海面更正</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible">動画 | <span-->
+            <!--    class="text-button" id="animate-currents" title="海流">海流</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible">レイヤー | <span-->
+            <!--    class="text-button" id="overlay-ocean-off">無</span> – <span-->
+            <!--    class="text-button" id="overlay-currents" title="海流">海流</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible"><span style="visibility:hidden">レイヤー</span> |</p>-->
+            <p>投影法 |
+                <!--<span class="proj text-button" id="atlantis" title="アトランティス">A</span> –-->
+                <span class="proj text-button" id="azimuthal_equidistant" title="正距方位">AE</span>
+                <!--<span class="proj text-button" id="conic_equidistant" title="正距円錐">CE</span> -->
+                - <span class="proj text-button" id="equirectangular" title="正距円筒">E</span>
+                - <span class="proj text-button" id="orthographic" title="正射">O</span> 
+                - <span class="proj text-button" id="stereographic" title="平射">S</span> 
+                <!--<span class="proj text-button" id="waterman" title="ウォーターマン蝶型">WB</span> -->
+                <!--<span class="proj text-button" id="winkel3" title="ヴィンケル第3">W3</span>-->
             </p>
             <!--<p>免責事項 | 正確な情報を提供するためのものではありません</p>-->
-            <p id="lang"><a href="/" class="internal-link">English</a></p>
+            <!--<p id="lang"><a href="/" class="internal-link">English</a></p>-->
             <p>
                 <a href="about.html" class="internal-link">サイトについて</a>
-                <a href="https://www.facebook.com/EarthWindMap" class="social-icon" title="Facebook">&#xe027;</a>
-                <a href="https://twitter.com/cambecc" class="social-icon" title="Twitter">&#xe086;</a>
+                <!--<a href="https://www.facebook.com/EarthWindMap" class="social-icon" title="Facebook">&#xe027;</a>-->
+                <!--<a href="https://twitter.com/cambecc" class="social-icon" title="Twitter">&#xe086;</a>-->
             </p>
         </div>
     </div>

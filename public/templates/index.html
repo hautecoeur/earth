@@ -71,66 +71,66 @@
             <p>{{__('Data')}} | <span id="data-layer"></span></p>
             <p><span id="scale-label">{{__('Scale')}} | </span><canvas id="scale"></canvas></p>
             <p>{{__('DataSource')}} | <span id="data-center"></span></p>
-            <p>{{__('Control')}} | <span
-                class="text-button" id="nav-now" title="{{__('Current Conditions')}}">{{__('Now')}}</span><span
-                class="text-button" id="nav-backward-more"> « </span> – <span
-                class="text-button" id="nav-backward"> ‹ </span> – <span
-                class="text-button" id="nav-forward"> › </span> – <span
-                class="text-button" id="nav-forward-more"> » </span><span
-                class="text-button" id="show-location" title="{{__('Current Position')}}">〖◯〗</span><span
-                class="text-button" id="option-show-grid" title="{{__('Toggle Grid')}}">{{__('Grid')}}</span>
+            <p>{{__('Control')}} |
+                <span class="text-button" id="nav-now" title="{{__('Current Conditions')}}">{{__('Now')}}</span>
+                <span class="text-button" id="nav-backward-more"> « </span>
+                <span class="text-button" id="nav-backward"> ‹ </span>
+                <span class="text-button" id="nav-forward"> › </span>
+                <span class="text-button" id="nav-forward-more"> » </span>
+                <!--<span class="text-button" id="show-location" title="{{__('Current Position')}}">〖◯〗</span>-->
+                <span class="text-button" id="option-show-grid" title="{{__('Toggle Grid')}}">{{__('Grid')}}</span>
             </p>
-            <p>{{__('Mode')}} | <span
-                class="text-button" id="wind-mode-enable">{{__('Air')}}</span> – <span
-                class="text-button" id="ocean-mode-enable">{{__('Ocean')}}</span>
+            <!--<p>{{__('Mode')}} | <span-->
+            <!--    class="text-button" id="wind-mode-enable">{{__('Air')}}</span> – <span-->
+            <!--    class="text-button" id="ocean-mode-enable">{{__('Ocean')}}</span>-->
+            <!--</p>-->
+            <p class="wind-mode">{{__('Height')}} |
+                <span class="surface text-button" id="surface-level" title="{{__('Surface')}}">{{__('Sfc')}}</span>
+                – <span class="surface text-button" id="isobaric-1000hPa">1000</span>
+                – <span class="surface text-button" id="isobaric-850hPa">850</span>
+                – <span class="surface text-button" id="isobaric-700hPa">700</span>
+                – <span class="surface text-button" id="isobaric-500hPa">500</span>
+                – <span class="surface text-button" id="isobaric-250hPa">250</span>
+                – <span class="surface text-button" id="isobaric-70hPa">70</span>
+                – <span class="surface text-button" id="isobaric-10hPa">10</span> hPa
             </p>
-            <p class="wind-mode">{{__('Height')}} | <span
-                class="surface text-button" id="surface-level" title="{{__('Surface')}}">{{__('Sfc')}}</span> – <span
-                class="surface text-button" id="isobaric-1000hPa">1000</span> – <span
-                class="surface text-button" id="isobaric-850hPa">850</span> – <span
-                class="surface text-button" id="isobaric-700hPa">700</span> – <span
-                class="surface text-button" id="isobaric-500hPa">500</span> – <span
-                class="surface text-button" id="isobaric-250hPa">250</span> – <span
-                class="surface text-button" id="isobaric-70hPa">70</span> – <span
-                class="surface text-button" id="isobaric-10hPa">10</span> hPa
+            <p class="wind-mode">{{__('Overlay')}} |
+                <span class="text-button" id="overlay-off">{{__('None')}}</span>
+                – <span class="text-button" id="overlay-wind" title="{{__('Wind Speed')}}">{{__('Wind')}}</span>
+                – <span class="text-button" id="overlay-temp" title="{{__('Temperature')}}">{{__('Temp')}}</span>
+                – <span class="text-button" id="overlay-relative_humidity" title="{{__('Relative Humidity')}}">{{__('RH')}}</span>
+                <!--– <span class="text-button" id="overlay-air_density" title="{{__('Air Density')}}">{{__('AD')}}</span>-->
+                <!--– <span class="text-button" id="overlay-wind_power_density" title="{{__('Wind Power Density')}}">{{__('WPD')}}</span>-->
             </p>
-            <p class="wind-mode">{{__('Overlay')}} | <span
-                class="text-button" id="overlay-off">{{__('None')}}</span> – <span
-                class="text-button" id="overlay-wind" title="{{__('Wind Speed')}}">{{__('Wind')}}</span> – <span
-                class="text-button" id="overlay-temp" title="{{__('Temperature')}}">{{__('Temp')}}</span> – <span
-                class="text-button" id="overlay-relative_humidity" title="{{__('Relative Humidity')}}">{{__('RH')}}</span> – <span
-                class="text-button" id="overlay-air_density" title="{{__('Air Density')}}">{{__('AD')}}</span> – <span
-                class="text-button" id="overlay-wind_power_density" title="{{__('Wind Power Density')}}">{{__('WPD')}}</span>
-            </p>
-            <p class="wind-mode"><span style="visibility:hidden">{{__('Overlay')}}</span> | <span
-                class="text-button" id="overlay-total_precipitable_water" title="{{__('Total Precipitable Water')}}">{{__('TPW')}}</span> – <span
-                class="text-button" id="overlay-total_cloud_water" title="{{__('Total Cloud Water')}}">{{__('TCW')}}</span> – <span
-                class="text-button" id="overlay-mean_sea_level_pressure" title="{{__('Mean Sea Level Pressure')}}">{{__('MSLP')}}</span>
-            </p>
-            <p class="ocean-mode invisible">{{__('Animate')}} | <span
-                class="text-button" id="animate-currents" title="{{__('Currents')}}">{{__('Currents')}}</span>
-            </p>
-            <p class="ocean-mode invisible">{{__('Overlay')}} | <span
-                class="text-button" id="overlay-ocean-off">{{__('None')}}</span> – <span
-                class="text-button" id="overlay-currents" title="{{__('Currents')}}">{{__('Currents')}}</span>
-            </p>
-            <p class="ocean-mode invisible"><span style="visibility:hidden">{{__('Overlay')}}</span> |</p>
-            <p>{{__('Projection')}} | <span
-                class="proj text-button" id="atlantis" title="{{__('Atlantis')}}">A</span> – <span
-                class="proj text-button" id="azimuthal_equidistant" title="{{__('Azimuthal Equidistant')}}">AE</span> – <span
-                class="proj text-button" id="conic_equidistant" title="{{__('Conic Equidistant')}}">CE</span> – <span
-                class="proj text-button" id="equirectangular" title="{{__('Equirectangular')}}">E</span> – <span
-                class="proj text-button" id="orthographic" title="{{__('Orthographic')}}">O</span> – <span
-                class="proj text-button" id="stereographic" title="{{__('Stereographic')}}">S</span> – <span
-                class="proj text-button" id="waterman" title="{{__('Waterman Butterfly')}}">WB</span> – <span
-                class="proj text-button" id="winkel3" title="{{__('Winkel Tripel')}}">W3</span>
+            <!--<p class="wind-mode"><span style="visibility:hidden">{{__('Overlay')}}</span> | <span-->
+            <!--    class="text-button" id="overlay-total_precipitable_water" title="{{__('Total Precipitable Water')}}">{{__('TPW')}}</span> – <span-->
+            <!--    class="text-button" id="overlay-total_cloud_water" title="{{__('Total Cloud Water')}}">{{__('TCW')}}</span> – <span-->
+            <!--    class="text-button" id="overlay-mean_sea_level_pressure" title="{{__('Mean Sea Level Pressure')}}">{{__('MSLP')}}</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible">{{__('Animate')}} | <span-->
+            <!--    class="text-button" id="animate-currents" title="{{__('Currents')}}">{{__('Currents')}}</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible">{{__('Overlay')}} | <span-->
+            <!--    class="text-button" id="overlay-ocean-off">{{__('None')}}</span> – <span-->
+            <!--    class="text-button" id="overlay-currents" title="{{__('Currents')}}">{{__('Currents')}}</span>-->
+            <!--</p>-->
+            <!--<p class="ocean-mode invisible"><span style="visibility:hidden">{{__('Overlay')}}</span> |</p>-->
+            <p>{{__('Projection')}} |
+                <!--<span class="proj text-button" id="atlantis" title="{{__('Atlantis')}}">A</span> –-->
+                <span class="proj text-button" id="azimuthal_equidistant" title="{{__('Azimuthal Equidistant')}}">AE</span>
+                <!--<span class="proj text-button" id="conic_equidistant" title="{{__('Conic Equidistant')}}">CE</span> -->
+                - <span class="proj text-button" id="equirectangular" title="{{__('Equirectangular')}}">E</span>
+                - <span class="proj text-button" id="orthographic" title="{{__('Orthographic')}}">O</span> 
+                - <span class="proj text-button" id="stereographic" title="{{__('Stereographic')}}">S</span> 
+                <!--<span class="proj text-button" id="waterman" title="{{__('Waterman Butterfly')}}">WB</span> -->
+                <!--<span class="proj text-button" id="winkel3" title="{{__('Winkel Tripel')}}">W3</span>-->
             </p>
             <!--<p>免責事項 | 正確な情報を提供するためのものではありません</p>-->
-            <p id="lang"><a href="{{__('/jp')}}" class="internal-link">{{__('日本語')}}</a></p>
+            <!--<p id="lang"><a href="{{__('/jp')}}" class="internal-link">{{__('日本語')}}</a></p>-->
             <p>
                 <a href="about.html" class="internal-link">{{__('about')}}</a>
-                <a href="https://www.facebook.com/EarthWindMap" class="social-icon" title="Facebook">&#xe027;</a>
-                <a href="https://twitter.com/cambecc" class="social-icon" title="Twitter">&#xe086;</a>
+                <!--<a href="https://www.facebook.com/EarthWindMap" class="social-icon" title="Facebook">&#xe027;</a>-->
+                <!--<a href="https://twitter.com/cambecc" class="social-icon" title="Twitter">&#xe086;</a>-->
             </p>
         </div>
     </div>

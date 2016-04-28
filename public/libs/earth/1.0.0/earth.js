@@ -164,20 +164,21 @@
         }, MOVE_END_WAIT);  // wait for a bit to decide if user has stopped moving the globe
 
         d3.select("#display").call(zoom);
-        d3.select("#show-location").on("click", function() {
-            if (navigator.geolocation) {
-                report.status("Finding current position...");
-                navigator.geolocation.getCurrentPosition(function(pos) {
-                    report.status("");
-                    var coord = [pos.coords.longitude, pos.coords.latitude], rotate = globe.locate(coord);
-                    if (rotate) {
-                        globe.projection.rotate(rotate);
-                        configuration.save({orientation: globe.orientation()});  // triggers reorientation
-                    }
-                    dispatch.trigger("click", globe.projection(coord), coord);
-                }, log.error);
-            }
-        });
+// show location feature disabled
+        // d3.select("#show-location").on("click", function() {
+        //     if (navigator.geolocation) {
+        //         report.status("Finding current position...");
+        //         navigator.geolocation.getCurrentPosition(function(pos) {
+        //             report.status("");
+        //             var coord = [pos.coords.longitude, pos.coords.latitude], rotate = globe.locate(coord);
+        //             if (rotate) {
+        //                 globe.projection.rotate(rotate);
+        //                 configuration.save({orientation: globe.orientation()});  // triggers reorientation
+        //             }
+        //             dispatch.trigger("click", globe.projection(coord), coord);
+        //         }, log.error);
+        //     }
+        // });
 
         function reorient() {
             var options = arguments[3] || {};
@@ -894,7 +895,7 @@
 
         d3.select("#show-menu").on("click", function() {
             if (µ.isEmbeddedInIFrame()) {
-                window.open("http://earth.nullschool.net/" + window.location.hash, "_blank");
+                window.open("https://earth-olivier31.c9users.io/" + window.location.hash, "_blank");
             }
             else {
                 d3.select("#menu").classed("invisible", !d3.select("#menu").classed("invisible"));
