@@ -9,14 +9,6 @@
 var globes = function() {
     "use strict";
 
-    /**
-     * @returns {Array} rotation of globe to current position of the user. Aside from asking for geolocation,
-     *          which user may reject, there is not much available except timezone. Better than nothing.
-     */
-    function currentPosition() {
-        var λ = µ.floorMod(new Date().getTimezoneOffset() / 4, 360);  // 24 hours * 60 min / 4 === 360 degrees
-        return [λ, 0];
-    }
 
     function ensureNumber(num, fallback) {
         return _.isFinite(num) || num === Infinity || num === -Infinity ? num : fallback;
@@ -202,13 +194,6 @@ var globes = function() {
 
     // ============================================================================================
 
-    // function atlantis() {
-    //     return newGlobe({
-    //         newProjection: function() {
-    //             return d3.geo.mollweide().rotate([30, -45, 90]).precision(0.1);
-    //         }
-    //     });
-    // }
 
     function azimuthalEquidistant() {
         return newGlobe({
@@ -217,17 +202,6 @@ var globes = function() {
             }
         });
     }
-
-    // function conicEquidistant() {
-    //     return newGlobe({
-    //         newProjection: function() {
-    //             return d3.geo.conicEquidistant().rotate(currentPosition()).precision(0.1);
-    //         },
-    //         center: function(view) {
-    //             return [view.width / 2, view.height / 2 + view.height * 0.065];
-    //         }
-    //     });
-    // }
 
     function equirectangular() {
         return newGlobe({
@@ -287,56 +261,13 @@ var globes = function() {
                 return d3.geo.stereographic()
                     .rotate([0, 90])
                     .precision(0.1)
-                    .clipAngle(45 - 0.0001)
-                    .clipExtent([[0, 0], [view.width, view.height]]);
+                    .clipAngle(45 - 0.0001);
+                    // .clipExtent([[0, 0], [view.width, view.height]]);
             }
         }, view);
     }
 
-    // function waterman() {
-    //     return newGlobe({
-    //         newProjection: function() {
-    //             return d3.geo.polyhedron.waterman().rotate([20, 0]).precision(0.1);
-    //         },
-    //         defineMap: function(mapSvg, foregroundSvg) {
-    //             var path = d3.geo.path().projection(this.projection);
-    //             var defs = mapSvg.append("defs");
-    //             defs.append("path")
-    //                 .attr("id", "sphere")
-    //                 .datum({type: "Sphere"})
-    //                 .attr("d", path);
-    //             defs.append("clipPath")
-    //                 .attr("id", "clip")
-    //                 .append("use")
-    //                 .attr("xlink:href", "#sphere");
-    //             mapSvg.append("use")
-    //                 .attr("xlink:href", "#sphere")
-    //                 .attr("class", "background-sphere");
-    //             mapSvg.append("path")
-    //                 .attr("class", "graticule")
-    //                 .attr("clip-path", "url(#clip)")
-    //                 .datum(d3.geo.graticule())
-    //                 .attr("d", path);
-    //             mapSvg.append("path")
-    //                 .attr("class", "coastline")
-    //                 .attr("clip-path", "url(#clip)");
-    //             mapSvg.append("path")
-    //                 .attr("class", "lakes")
-    //                 .attr("clip-path", "url(#clip)");
-    //             foregroundSvg.append("use")
-    //                 .attr("xlink:href", "#sphere")
-    //                 .attr("class", "foreground-sphere");
-    //         }
-    //     });
-    // }
-
-    // function winkel3() {
-    //     return newGlobe({
-    //         newProjection: function() {
-    //             return d3.geo.winkel3().precision(0.1);
-    //         }
-    //     });
-    // }
+    
 
     return d3.map({
         // atlantis: atlantis,

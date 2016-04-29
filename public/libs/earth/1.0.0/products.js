@@ -10,12 +10,6 @@ var products = function() {
     "use strict";
 
     var WEATHER_PATH = "/data/weather";
-    // var OSCAR_PATH = "/data/oscar";
-    // var catalogs = {
-    //     // The OSCAR catalog is an array of file names, sorted and prefixed with yyyyMMdd. Last item is the
-    //     // most recent. For example: [ 20140101-abc.json, 20140106-abc.json, 20140112-abc.json, ... ]
-    //     oscar: µ.loadJson([OSCAR_PATH, "catalog.json"].join("/"))
-    // };
 
     function buildProduct(overrides) {
         return _.extend({
@@ -115,10 +109,7 @@ var products = function() {
                 return buildProduct({
                     field: "vector",
                     type: "wind",
-                    description: localize({
-                        name: {en: "Wind", ja: "風速"},
-                        qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
-                    }),
+                    description: {name: "Wind", qualifier: " @ " + describeSurface(attr)},
                     paths: [gfs1p0degPath(attr, "wind", attr.surface, attr.level)],
                     date: gfsDate(attr),
                     builder: function(file) {
@@ -232,173 +223,6 @@ var products = function() {
             }
         },
 
-        // "air_density": {
-        //     matches: _.matches({param: "wind", overlayType: "air_density"}),
-        //     create: function(attr) {
-        //         return buildProduct({
-        //             field: "scalar",
-        //             type: "air_density",
-        //             description: localize({
-        //                 name: {en: "Air Density", ja: "空気密度"},
-        //                 qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
-        //             }),
-        //             paths: [gfs1p0degPath(attr, "air_density", attr.surface, attr.level)],
-        //             date: gfsDate(attr),
-        //             builder: function(file) {
-        //                 var vars = file.variables;
-        //                 var air_density = vars.air_density, data = air_density.data;
-        //                 return {
-        //                     header: netcdfHeader(vars.time, vars.lat, vars.lon, file.Originating_or_generating_Center),
-        //                     interpolate: bilinearInterpolateScalar,
-        //                     data: function(i) {
-        //                         return data[i];
-        //                     }
-        //                 };
-        //             },
-        //             units: [
-        //                 {label: "kg/m³", conversion: function(x) { return x; }, precision: 2}
-        //             ],
-        //             scale: {
-        //                 bounds: [0, 1.5],
-        //                 gradient: function(v, a) {
-        //                     return µ.sinebowColor(Math.min(v, 1.5) / 1.5, a);
-        //                 }
-        //             }
-        //         });
-        //     }
-        // },
-
-        // "wind_power_density": {
-        //     matches: _.matches({param: "wind", overlayType: "wind_power_density"}),
-        //     create: function(attr) {
-        //         var windProduct = FACTORIES.wind.create(attr);
-        //         var airdensProduct = FACTORIES.air_density.create(attr);
-        //         return buildProduct({
-        //             field: "scalar",
-        //             type: "wind_power_density",
-        //             description: localize({
-        //                 name: {en: "Wind Power Density", ja: "風力エネルギー密度"},
-        //                 qualifier: {en: " @ " + describeSurface(attr), ja: " @ " + describeSurfaceJa(attr)}
-        //             }),
-        //             paths: [windProduct.paths[0], airdensProduct.paths[0]],
-        //             date: gfsDate(attr),
-        //             builder: function(windFile, airdensFile) {
-        //                 var windBuilder = windProduct.builder(windFile);
-        //                 var airdensBuilder = airdensProduct.builder(airdensFile);
-        //                 var windData = windBuilder.data, windInterpolate = windBuilder.interpolate;
-        //                 var airdensData = airdensBuilder.data, airdensInterpolate = airdensBuilder.interpolate;
-        //                 return {
-        //                     header: _.clone(airdensBuilder.header),
-        //                     interpolate: function(x, y, g00, g10, g01, g11) {
-        //                         var m = windInterpolate(x, y, g00[0], g10[0], g01[0], g11[0])[2];
-        //                         var ρ = airdensInterpolate(x, y, g00[1], g10[1], g01[1], g11[1]);
-        //                         return 0.5 * ρ * m * m * m;
-        //                     },
-        //                     data: function(i) {
-        //                         return [windData(i), airdensData(i)];
-        //                     }
-        //                 };
-        //             },
-        //             units: [
-        //                 {label: "kW/m²", conversion: function(x) { return x / 1000; }, precision: 1},
-        //                 {label: "W/m²", conversion: function(x) { return x; }, precision: 0}
-        //             ],
-        //             scale: {
-        //                 bounds: [0, 80000],
-        //                 gradient: µ.segmentedColorScale([
-        //                     [0, [15, 4, 96]],
-        //                     [250, [30, 8, 180]],
-        //                     [1000, [121, 102, 2]],
-        //                     [2000, [118, 161, 66]],
-        //                     [4000, [50, 102, 219]],
-        //                     [8000, [19, 131, 193]],
-        //                     [16000, [59, 204, 227]],
-        //                     [64000, [241, 1, 45]],
-        //                     [80000, [243, 0, 241]]
-        //                 ])
-        //             }
-        //         });
-        //     }
-        // },
-
-        // "total_cloud_water": {
-        //     matches: _.matches({param: "wind", overlayType: "total_cloud_water"}),
-        //     create: function(attr) {
-        //         return buildProduct({
-        //             field: "scalar",
-        //             type: "total_cloud_water",
-        //             description: localize({
-        //                 name: {en: "Total Cloud Water", ja: "雲水量"},
-        //                 qualifier: ""
-        //             }),
-        //             paths: [gfs1p0degPath(attr, "total_cloud_water")],
-        //             date: gfsDate(attr),
-        //             builder: function(file) {
-        //                 var record = file[0], data = record.data;
-        //                 return {
-        //                     header: record.header,
-        //                     interpolate: bilinearInterpolateScalar,
-        //                     data: function(i) {
-        //                         return data[i];
-        //                     }
-        //                 }
-        //             },
-        //             units: [
-        //                 {label: "kg/m²", conversion: function(x) { return x; }, precision: 3}
-        //             ],
-        //             scale: {
-        //                 bounds: [0, 1],
-        //                 gradient: µ.segmentedColorScale([
-        //                     [0.0, [5, 5, 89]],
-        //                     [0.2, [170, 170, 230]],
-        //                     [1.0, [255, 255, 255]]
-        //                 ])
-        //             }
-        //         });
-        //     }
-        // },
-
-        // "total_precipitable_water": {
-        //     matches: _.matches({param: "wind", overlayType: "total_precipitable_water"}),
-        //     create: function(attr) {
-        //         return buildProduct({
-        //             field: "scalar",
-        //             type: "total_precipitable_water",
-        //             description: localize({
-        //                 name: {en: "Total Precipitable Water", ja: "可降水量"},
-        //                 qualifier: ""
-        //             }),
-        //             paths: [gfs1p0degPath(attr, "total_precipitable_water")],
-        //             date: gfsDate(attr),
-        //             builder: function(file) {
-        //                 var record = file[0], data = record.data;
-        //                 return {
-        //                     header: record.header,
-        //                     interpolate: bilinearInterpolateScalar,
-        //                     data: function(i) {
-        //                         return data[i];
-        //                     }
-        //                 }
-        //             },
-        //             units: [
-        //                 {label: "kg/m²", conversion: function(x) { return x; }, precision: 3}
-        //             ],
-        //             scale: {
-        //                 bounds: [0, 70],
-        //                 gradient:
-        //                     µ.segmentedColorScale([
-        //                         [0, [230, 165, 30]],
-        //                         [10, [120, 100, 95]],
-        //                         [20, [40, 44, 92]],
-        //                         [30, [21, 13, 193]],
-        //                         [40, [75, 63, 235]],
-        //                         [60, [25, 255, 255]],
-        //                         [70, [150, 255, 255]]
-        //                     ])
-        //             }
-        //         });
-        //     }
-        // },
 
         "mean_sea_level_pressure": {
             matches: _.matches({param: "wind", overlayType: "mean_sea_level_pressure"}),
@@ -444,55 +268,6 @@ var products = function() {
             }
         },
 
-        // "currents": {
-        //     matches: _.matches({param: "ocean", surface: "surface", level: "currents"}),
-        //     create: function(attr) {
-        //         return when(catalogs.oscar).then(function(catalog) {
-        //             return buildProduct({
-        //                 field: "vector",
-        //                 type: "currents",
-        //                 description: localize({
-        //                     name: {en: "Ocean Currents", ja: "海流"},
-        //                     qualifier: {en: " @ Surface", ja: " @ 地上"}
-        //                 }),
-        //                 paths: [oscar0p33Path(catalog, attr)],
-        //                 date: oscarDate(catalog, attr),
-        //                 navigate: function(step) {
-        //                     return oscarStep(catalog, this.date, step);
-        //                 },
-        //                 builder: function(file) {
-        //                     var uData = file[0].data, vData = file[1].data;
-        //                     return {
-        //                         header: file[0].header,
-        //                         interpolate: bilinearInterpolateVector,
-        //                         data: function(i) {
-        //                             var u = uData[i], v = vData[i];
-        //                             return µ.isValue(u) && µ.isValue(v) ? [u, v] : null;
-        //                         }
-        //                     }
-        //                 },
-        //                 units: [
-        //                     {label: "m/s",  conversion: function(x) { return x; },            precision: 2},
-        //                     {label: "km/h", conversion: function(x) { return x * 3.6; },      precision: 1},
-        //                     {label: "kn",   conversion: function(x) { return x * 1.943844; }, precision: 1},
-        //                     {label: "mph",  conversion: function(x) { return x * 2.236936; }, precision: 1}
-        //                 ],
-        //                 scale: {
-        //                     bounds: [0, 1.5],
-        //                     gradient: µ.segmentedColorScale([
-        //                         [0, [10, 25, 68]],
-        //                         [0.15, [10, 25, 250]],
-        //                         [0.4, [24, 255, 93]],
-        //                         [0.65, [255, 233, 102]],
-        //                         [1.0, [255, 233, 15]],
-        //                         [1.5, [255, 15, 15]]
-        //                     ])
-        //                 },
-        //                 particles: {velocityScale: 1/4400, maxIntensity: 0.7}
-        //             });
-        //         });
-        //     }
-        // },
 
         "off": {
             matches: _.matches({overlayType: "off"}),
@@ -502,52 +277,6 @@ var products = function() {
         }
     };
 
-    /**
-     * Returns the file name for the most recent OSCAR data layer to the specified date. If offset is non-zero,
-     * the file name that many entries from the most recent is returned.
-     *
-     * The result is undefined if there is no entry for the specified date and offset can be found.
-     *
-     * UNDONE: the catalog object itself should encapsulate this logic. GFS can also be a "virtual" catalog, and
-     *         provide a mechanism for eliminating the need for /data/weather/current/* files.
-     *
-     * @param {Array} catalog array of file names, sorted and prefixed with yyyyMMdd. Last item is most recent.
-     * @param {String} date string with format yyyy/MM/dd or "current"
-     * @param {Number?} offset
-     * @returns {String} file name
-     */
-    // function lookupOscar(catalog, date, offset) {
-    //     offset = +offset || 0;
-    //     if (date === "current") {
-    //         return catalog[catalog.length - 1 + offset];
-    //     }
-    //     var prefix = µ.ymdRedelimit(date, "/", ""), i = _.sortedIndex(catalog, prefix);
-    //     i = (catalog[i] || "").indexOf(prefix) === 0 ? i : i - 1;
-    //     return catalog[i + offset];
-    // }
-
-    // function oscar0p33Path(catalog, attr) {
-    //     var file = lookupOscar(catalog, attr.date);
-    //     return file ? [OSCAR_PATH, file].join("/") : null;
-    // }
-
-    // function oscarDate(catalog, attr) {
-    //     var file = lookupOscar(catalog, attr.date);
-    //     var parts = file ? µ.ymdRedelimit(file, "", "/").split("/") : null;
-    //     return parts ? new Date(Date.UTC(+parts[0], parts[1] - 1, +parts[2], 0)) : null;
-    // }
-
-    /**
-     * @returns {Date} the chronologically next or previous OSCAR data layer. How far forward or backward in
-     * time to jump is determined by the step and the catalog of available layers. A step of ±1 moves to the
-     * next/previous entry in the catalog (about 5 days), and a step of ±10 moves to the entry six positions away
-     * (about 30 days).
-     */
-    // function oscarStep(catalog, date, step) {
-    //     var file = lookupOscar(catalog, µ.dateToUTCymd(date, "/"), step > 1 ? 6 : step < -1 ? -6 : step);
-    //     var parts = file ? µ.ymdRedelimit(file, "", "/").split("/") : null;
-    //     return parts ? new Date(Date.UTC(+parts[0], parts[1] - 1, +parts[2], 0)) : null;
-    // }
 
     function dataSource(header) {
         // noinspection FallthroughInSwitchStatementJS

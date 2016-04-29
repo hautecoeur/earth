@@ -164,21 +164,6 @@
         }, MOVE_END_WAIT);  // wait for a bit to decide if user has stopped moving the globe
 
         d3.select("#display").call(zoom);
-// show location feature disabled
-        // d3.select("#show-location").on("click", function() {
-        //     if (navigator.geolocation) {
-        //         report.status("Finding current position...");
-        //         navigator.geolocation.getCurrentPosition(function(pos) {
-        //             report.status("");
-        //             var coord = [pos.coords.longitude, pos.coords.latitude], rotate = globe.locate(coord);
-        //             if (rotate) {
-        //                 globe.projection.rotate(rotate);
-        //                 configuration.save({orientation: globe.orientation()});  // triggers reorientation
-        //             }
-        //             dispatch.trigger("click", globe.projection(coord), coord);
-        //         }, log.error);
-        //     }
-        // });
 
         function reorient() {
             var options = arguments[3] || {};
@@ -687,7 +672,6 @@
                 var pct = µ.clamp((Math.round(x) - 2) / (n - 2), 0, 1);
                 var value = µ.spread(pct, bounds[0], bounds[1]);
                 var elementId = grid.type === "wind" ? "#location-wind-units" : "#location-value-units";
-                var units = createUnitToggle(elementId, grid).value();
                 colorBar.attr("title", µ.formatScalar(value, units) + " " + units.label);
             });
         }
@@ -728,7 +712,7 @@
         var description = "", center = "";
         if (grids) {
             var langCode = d3.select("body").attr("data-lang") || "en";
-            var pd = grids.primaryGrid.description(langCode), od = grids.overlayGrid.description(langCode);
+            var pd = grids.primaryGrid.description, od = grids.overlayGrid.description;
             description = od.name + od.qualifier;
             if (grids.primaryGrid !== grids.overlayGrid) {
                 // Combine both grid descriptions together with a " + " if their qualifiers are the same.
@@ -740,47 +724,19 @@
         d3.select("#data-center").text(center);
     }
 
-    /**
-     * Constructs a toggler for the specified product's units, storing the toggle state on the element having
-     * the specified id. For example, given a product having units ["m/s", "mph"], the object returned by this
-     * method sets the element's "data-index" attribute to 0 for m/s and 1 for mph. Calling value() returns the
-     * currently active units object. Calling next() increments the index.
-     */
-    function createUnitToggle(id, product) {
-        var units = product.units, size = units.length;
-        var index = +(d3.select(id).attr("data-index") || 0) % size;
-        return {
-            value: function() {
-                return units[index];
-            },
-            next: function() {
-                d3.select(id).attr("data-index", index = ((index + 1) % size));
-            }
-        };
-    }
 
     /**
      * Display the specified wind value. Allow toggling between the different types of wind units.
      */
     function showWindAtLocation(wind, product) {
-        var unitToggle = createUnitToggle("#location-wind-units", product), units = unitToggle.value();
-        d3.select("#location-wind").text(µ.formatVector(wind, units));
-        d3.select("#location-wind-units").text(units.label).on("click", function() {
-            unitToggle.next();
-            showWindAtLocation(wind, product);
-        });
+        d3.select("#location-wind").text(µ.formatVector(wind));
     }
 
     /**
      * Display the specified overlay value. Allow toggling between the different types of supported units.
      */
     function showOverlayValueAtLocation(value, product) {
-        var unitToggle = createUnitToggle("#location-value-units", product), units = unitToggle.value();
         d3.select("#location-value").text(µ.formatScalar(value, units));
-        d3.select("#location-value-units").text(units.label).on("click", function() {
-            unitToggle.next();
-            showOverlayValueAtLocation(value, product);
-        });
     }
 
     // Stores the point and coordinate of the currently visible location. This is used to update the location
@@ -1021,12 +977,6 @@
                     d3.select("#nav-forward").attr("title", "+3 Hours");
                     d3.select("#nav-forward-more").attr("title", "+1 Day");
                     break;
-                // case "ocean":
-                //     d3.select("#nav-backward-more").attr("title", "-1 Month");
-                //     d3.select("#nav-backward").attr("title", "-5 Days");
-                //     d3.select("#nav-forward").attr("title", "+5 Days");
-                //     d3.select("#nav-forward-more").attr("title", "+1 Month");
-                //     break;
             }
         });
 
@@ -1039,38 +989,6 @@
         configuration.on("change:param", function(x, param) {
             d3.select("#wind-mode-enable").classed("highlighted", param === "wind");
         });
-        // d3.select("#ocean-mode-enable").on("click", function() {
-        //     if (configuration.get("param") !== "ocean") {
-        //         // When switching between modes, there may be no associated data for the current date. So we need
-        //         // find the closest available according to the catalog. This is not necessary if date is "current".
-        //         // UNDONE: this code is annoying. should be easier to get date for closest ocean product.
-        //         var ocean = {param: "ocean", surface: "surface", level: "currents", overlayType: "default"};
-        //         var attr = _.clone(configuration.attributes);
-        //         if (attr.date === "current") {
-        //             configuration.save(ocean);
-        //         }
-        //         else {
-        //             when.all(products.productsFor(_.extend(attr, ocean))).spread(function(product) {
-        //                 if (product.date) {
-        //                     configuration.save(_.extend(ocean, µ.dateToConfig(product.date)));
-        //                 }
-        //             }).otherwise(report.error);
-        //         }
-        //         stopCurrentAnimation(true);  // cleanup particle artifacts over continents
-        //     }
-        // });
-        // configuration.on("change:param", function(x, param) {
-        //     d3.select("#ocean-mode-enable").classed("highlighted", param === "ocean");
-        // });
-
-        // Add logic to disable buttons that are incompatible with each other.
-        // configuration.on("change:overlayType", function(x, ot) {
-        //     d3.select("#surface-level").classed("disabled", ot === "air_density" || ot === "wind_power_density");
-        // });
-        // configuration.on("change:surface", function(x, s) {
-        //     d3.select("#overlay-air_density").classed("disabled", s === "surface");
-        //     d3.select("#overlay-wind_power_density").classed("disabled", s === "surface");
-        // });
 
         // Add event handlers for the time navigation buttons.
         d3.select("#nav-backward-more").on("click", navigate.bind(null, -10));
@@ -1100,8 +1018,6 @@
             bindButtonToConfiguration("#overlay-" + type, {overlayType: type});
         });
         bindButtonToConfiguration("#overlay-wind", {param: "wind", overlayType: "default"});
-        // bindButtonToConfiguration("#overlay-ocean-off", {overlayType: "off"});
-        // bindButtonToConfiguration("#overlay-currents", {overlayType: "default"});
 
         // Add handlers for all projection buttons.
         globes.keys().forEach(function(p) {
