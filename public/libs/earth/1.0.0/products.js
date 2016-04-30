@@ -6,6 +6,7 @@
  *
  * https://github.com/cambecc/earth
  */
+
 var products = function() {
     "use strict";
 
@@ -122,12 +123,7 @@ var products = function() {
                             }
                         }
                     },
-                    units: [
-                        {label: "km/h", conversion: function(x) { return x * 3.6; },      precision: 0},
-                        {label: "m/s",  conversion: function(x) { return x; },            precision: 1},
-                        {label: "kn",   conversion: function(x) { return x * 1.943844; }, precision: 0},
-                        {label: "mph",  conversion: function(x) { return x * 2.236936; }, precision: 0}
-                    ],
+                    units: {label: "m/s",  conversion: function(x) { return x; }, precision: 1},
                     scale: {
                         bounds: [0, 100],
                         gradient: function(v, a) {
@@ -161,11 +157,7 @@ var products = function() {
                             }
                         }
                     },
-                    units: [
-                        {label: "°C", conversion: function(x) { return x - 273.15; },       precision: 1},
-                        {label: "°F", conversion: function(x) { return x * 9/5 - 459.67; }, precision: 1},
-                        {label: "K",  conversion: function(x) { return x; },                precision: 1}
-                    ],
+                    units: {label: "K",  conversion: function(x) { return x; },                precision: 1},
                     scale: {
                         bounds: [193, 328],
                         gradient: µ.segmentedColorScale([
@@ -210,9 +202,7 @@ var products = function() {
                             }
                         };
                     },
-                    units: [
-                        {label: "%", conversion: function(x) { return x; }, precision: 0}
-                    ],
+                    units: {label: "%", conversion: function(x) { return x; }, precision: 0},
                     scale: {
                         bounds: [0, 100],
                         gradient: function(v, a) {

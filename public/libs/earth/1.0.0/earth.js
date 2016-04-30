@@ -698,10 +698,8 @@
      * Display the grid's validity date in the menu. Allow toggling between local and UTC time.
      */
     function showDate(grids) {
-        var date = new Date(validityDate(grids)), isLocal = d3.select("#data-date").classed("local");
-        var formatted = isLocal ? µ.toLocalISO(date) : µ.toUTCISO(date);
-        d3.select("#data-date").text(formatted + " " + (isLocal ? "Local" : "UTC"));
-        d3.select("#toggle-zone").text("⇄ " + (isLocal ? "UTC" : "Local"));
+        var date = new Date(validityDate(grids));
+        d3.select("#data-date").text(µ.toUTCISO(date));
     }
 
     /**
@@ -917,10 +915,6 @@
         });
         gridAgent.on("update", function(grids) {
             showGridDetails(grids);
-        });
-        d3.select("#toggle-zone").on("click", function() {
-            d3.select("#data-date").classed("local", !d3.select("#data-date").classed("local"));
-            showDate(gridAgent.cancel.requested ? null : gridAgent.value());
         });
 
         function startRendering() {
