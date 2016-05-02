@@ -9,8 +9,7 @@
 var µ = function() {
     "use strict";
 
-    var τ = 2 * Math.PI;
-    var H = 0.0000360;  // 0.0000360°φ ~= 4m
+    const τ = 2 * Math.PI;
     var DEFAULT_CONFIG = "current/wind/surface/level/orthographic";
     var TOPOLOGY = isMobile() ? "/data/earth-topo-mobile.json?v2" : "/data/earth-topo.json?v2";
 
@@ -355,6 +354,7 @@ var µ = function() {
      * @returns {Array} array of scaled derivatives [dx/dλ, dy/dλ, dx/dφ, dy/dφ]
      */
     function distortion(projection, λ, φ, x, y) {
+        const H = 0.0000360;  // 0.0000360°φ ~= 4m
         var hλ = λ < 0 ? H : -H;
         var hφ = φ < 0 ? H : -H;
         var pλ = projection([λ + hλ, φ]);
